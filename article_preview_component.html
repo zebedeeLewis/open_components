@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/article_preview_component.css">
+</head>
+<body>
+  <div class="content">
+    <article 
+      class='article' 
+      itemtype="https://schema.org/Article"
+      itemscope 
+    >
+      <img
+        src="images/drawers.jpg"
+        class="article__header"
+        itemprop="image"
+      >
+      <header class="article__header" itemprop="headline">
+        <p>
+        Shift the overall look and feel by adding these wonderful
+        touches to furniture in your home.
+        </p>
+      </header>
+      <section class="article__abstract" itemprop="abstract">
+        <p>
+        Ever been in a room and felt like something was missing? Perhaps
+        it felt slightly bare and uninviting. I've got some simple tips
+        to help you make any room feel complete.
+        </p>
+      </section>
+      <footer class="article__footer">
+        <div class="footer-subsection">
+          <div
+            class="author"
+            itemprop="author"
+            itemtype="https://schema.org/Person"
+            itemscope
+          >
+            <img
+              src="images/avatar-michelle.jpg"
+              class="author__image"
+              itemprop="image"
+            >
+            <span class="author__name" itemprop="name">
+              Michelle Appleton
+            </span>
+          </div>
+          <div
+            class="publishing-date"
+            itemprop="datePublished"
+            value="2020-06-28"
+          >
+            28 Jun 2020
+          </div>
+        </div>
+        <div class="footer-subsection share-bubble">
+          <div class="share-bubble__inner">
+            <div class="share-bubble__content">
+            </div>
+          </div>
+        </div>
+      </footer>
+    </article>
+  </div>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"
+></script>
+<script src="js/article_preview_component.js"></script>
+</body>
+</html>
