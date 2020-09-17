@@ -1,7 +1,8 @@
 /*
  * Table of Contents
  * 1. GENERAL STYLES
- *    1.0. Icomoon Icons
+ *    1.1. Global Variables
+ *    1.2. Icomoon Icons
  *  
  */
 
@@ -10,8 +11,30 @@
  * 1 GENERAL STYLES
  */
 
+
 /*
- * 1.0 Icomoon Icons
+ * 1.1 Global Variables
+ */
+:root {
+  --component-min-width-mobile: 375px;
+  --component-min-width-desktop: 1440px;
+
+  --gray: hsl(212, 23%, 69%);
+  --dark-gray: hsl(217, 19%, 35%);
+  --light-gray: hsl(210, 46%, 95%);
+  --dark-blue: hsl(214, 17%, 51%);
+
+  --baseline: 4; /*px*/
+
+  --font-size: 13px;
+  --font-weight: 500;
+  --font-weight-bold: 700;
+  --font-family: 'Manrope', sans-serif;
+}
+
+
+/*
+ * 1.2 Icomoon Icons
  */
 @font-face {
   font-family: 'icomoon';
