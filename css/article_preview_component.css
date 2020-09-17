@@ -30,6 +30,9 @@
   --font-weight: 500;
   --font-weight-bold: 700;
   --font-family: 'Manrope', sans-serif;
+
+
+  font-family: var(--font-family);
 }
 
 
