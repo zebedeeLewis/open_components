@@ -1,19 +1,14 @@
 /*
  * Table of Contents
- * 1. GENERAL STYLES
- *    1.1. Global Variables
- *    1.2. Icomoon Icons
- *  
+ * 1. Global Variables
+ * 2. Icomoon Icons
+ * 3. General Styles
+ * 4. article
  */
 
 
 /*
- * 1 GENERAL STYLES
- */
-
-
-/*
- * 1.1 Global Variables
+ * 1 Global Variables
  */
 :root {
   --component-min-width-mobile: 375px;
@@ -25,19 +20,29 @@
   --dark-blue: hsl(214, 17%, 51%);
 
   --baseline: 4; /*px*/
+  --b1: calc(var(--baseline) * 1px);
+  --b2: calc(var(--baseline) * 2px);
+  --b3: calc(var(--baseline) * 3px);
+  --b4: calc(var(--baseline) * 4px);
+  --b5: calc(var(--baseline) * 5px);
+  --b6: calc(var(--baseline) * 6px);
+  --b7: calc(var(--baseline) * 7px);
+  --b8: calc(var(--baseline) * 8px);
+  --b9: calc(var(--baseline) * 9px);
 
   --font-size: 13px;
   --font-weight: 500;
   --font-weight-bold: 700;
   --font-family: 'Manrope', sans-serif;
+  --font-color: var(--dark-blue);
+  --line-height: var(--b5);
 
-
-  font-family: var(--font-family);
+  --image-length: 52px;
 }
 
 
 /*
- * 1.2 Icomoon Icons
+ * 2 Icomoon Icons
  */
 @font-face {
   font-family: 'icomoon';
@@ -60,6 +65,16 @@
   font-variant: normal;
   text-transform: none;
   line-height: 1;
+  font-size: 16px;
+  width: var(--b7);
+  height: var(--b7);
+  background-color: var(--light-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
+}
 
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
@@ -83,4 +98,135 @@
 }
 .icon-pinterest-p:before {
   content: "\f231";
+}
+
+
+/*
+ * 3 General Styles
+ */
+:root {
+  font-weight: var(--font-weight);
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+  line-height: var(--b5);
+  letter-spacing: 1px;
+}
+
+
+.content {
+  padding: var(--b6) var(--b4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-gray);
+}
+
+
+.responsive-img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+
+.mx-7 {
+  padding-left: var(--b7);
+  padding-right: var(--b7);
+}
+
+
+.ml-auto {
+  margin-left: auto;
+}
+
+
+.align-self-center {
+  align-self: center;
+}
+
+
+/*
+ * 4 article
+ */
+.article {
+  max-width: var(--component-min-width-mobile);
+  background-color: white;
+  color: var(--font-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .article {
+    max-width: var(--component-min-width-desktop);
+  }
+}
+
+
+.article__image {
+  max-height: 190px;
+  overflow: hidden;
+}
+
+
+.article__headline {
+  padding-top: var(--b9);
+  margin-bottom: var(--b4);
+  color: var(--dark-gray);
+  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+}
+
+
+.article__abstract {
+  padding-bottom: var(--b4);
+}
+
+
+.article__footer {
+}
+
+
+.footer-subsection {
+  display: flex;
+  position: relative;
+  padding-top: var(--b4);
+  padding-bottom: var(--b4);
+}
+
+
+.author {
+  display: flex;
+  align-items: flex-start;
+}
+
+
+.author__image {
+  width: var(--image-length);
+  height: var(--image-length);
+  border-radius: 50%;
+}
+
+
+.author__name {
+  margin-left: var(--b4);
+  color: var(--dark-gray);
+  font-weight: var(--font-weight-bold);
+}
+
+
+.publishing-date {
+  position: absolute;
+  top: calc( var(--b4)
+           + var(--line-height)
+           );
+  left: calc( var(--b7)
+            + var(--image-length)
+            + var(--b4)
+            );
+}
+
+
+.share-bubble {
+  display: none;
 }
