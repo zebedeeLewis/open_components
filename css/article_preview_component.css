@@ -20,15 +20,17 @@
   --dark-blue: hsl(214, 17%, 51%);
 
   --baseline: 4; /*px*/
-  --b1: calc(var(--baseline) * 1px);
-  --b2: calc(var(--baseline) * 2px);
-  --b3: calc(var(--baseline) * 3px);
-  --b4: calc(var(--baseline) * 4px);
-  --b5: calc(var(--baseline) * 5px);
-  --b6: calc(var(--baseline) * 6px);
-  --b7: calc(var(--baseline) * 7px);
-  --b8: calc(var(--baseline) * 8px);
-  --b9: calc(var(--baseline) * 9px);
+  --b1:  calc(var(--baseline) * 1px);
+  --b2:  calc(var(--baseline) * 2px);
+  --b3:  calc(var(--baseline) * 3px);
+  --b4:  calc(var(--baseline) * 4px);
+  --b5:  calc(var(--baseline) * 5px);
+  --b6:  calc(var(--baseline) * 6px);
+  --b7:  calc(var(--baseline) * 7px);
+  --b8:  calc(var(--baseline) * 8px);
+  --b9:  calc(var(--baseline) * 9px);
+  --b10: calc(var(--baseline) * 10px);
+  --b13: calc(var(--baseline) * 10px);
 
   --font-size: 13px;
   --font-weight: 500;
@@ -37,7 +39,7 @@
   --font-color: var(--dark-blue);
   --line-height: var(--b5);
 
-  --image-length: 52px;
+  --image-length: 42px;
 }
 
 
@@ -74,6 +76,12 @@
   justify-content: center;
   text-align: center;
   border-radius: 50%;
+}
+
+
+.icon-invert {
+  background-color: var(--dark-blue);
+  color: white;
 }
 
   /* Better Font Rendering =========== */
@@ -136,7 +144,7 @@
 
 
 .ml-auto {
-  margin-left: auto;
+  margin-left: auto!important;
 }
 
 
@@ -184,6 +192,7 @@
 
 
 .article__footer {
+  position: relative;
 }
 
 
@@ -192,6 +201,12 @@
   position: relative;
   padding-top: var(--b4);
   padding-bottom: var(--b4);
+  height: var(--b13);
+}
+
+
+.author-subsection {
+  z-index: 2;
 }
 
 
@@ -228,5 +243,43 @@
 
 
 .share-bubble {
-  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: 100%;
 }
+
+
+.share-bubble__inner {
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+}
+
+
+.share-bubble__content {
+  display: flex;
+  align-items: center;
+  background-color: var(--dark-gray);
+  box-sizing: border-box;
+}
+
+
+.share-label {
+  letter-spacing: var(--b1);
+  text-transform: uppercase;
+  margin-right: var(--b2);
+  color: var(--gray);
+}
+
+
+.share-icon {
+  margin-left: var(--b2);
+}
+
+
