@@ -11,7 +11,7 @@
 
   const AUTHOR_SUBSECTION_SELECTOR = '.author-subsection'
 
-  const ANIMATION_DURATION = .25
+  const ANIMATION_DURATION = .2
 
   const BORDER_RADIUS = '50px'
 

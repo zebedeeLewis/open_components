@@ -11,9 +11,6 @@
  * 1 Global Variables
  */
 :root {
-  --component-min-width-mobile: 375px;
-  --component-min-width-desktop: 1440px;
-
   --gray: hsl(212, 23%, 69%);
   --dark-gray: hsl(217, 19%, 35%);
   --light-gray: hsl(210, 46%, 95%);
@@ -40,6 +37,9 @@
   --line-height: var(--b5);
 
   --image-length: 42px;
+
+  --component-min-width-mobile: 375px;
+  --component-min-width-desktop: calc(var(--baseline) * 190px);
 }
 
 
@@ -164,16 +164,36 @@
   overflow: hidden;
 }
 
+
 @media (min-width: 768px) {
   .article {
     max-width: var(--component-min-width-desktop);
+    display: flex;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .image-wrapper {
+    flex: 1 1 85%;
   }
 }
 
 
 .article__image {
-  max-height: 190px;
+  /*max-height: 190px;*/
   overflow: hidden;
+  background-size: cover;
+  padding-top: 66.66%;
+  width: 100%;
+}
+
+
+@media (min-width: 768px) {
+  .article__image {
+    padding-top: 0;
+    height: 100%;
+  }
 }
 
 
