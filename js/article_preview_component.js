@@ -1,140 +1,281 @@
-(function(gsap, document) {
-  const ARTICLE_SELECTOR = ".article"
+(function(gsap, Popper, window, document) {
 
-  const SHARE_BUBBLE_SELECTOR = '.share-bubble'
+const ARTICLE_SELECTOR = ".article"
 
-  const OPEN_SHARE_SELECTOR = '.open-share'
-  const CLOSE_SHARE_SELECTOR = '.close-share'
+const SHARE_BUBBLE_SELECTOR = '.share-bubble'
 
-  const SHARE_BUBBLE_INNER_SELECTOR = '.share-bubble__inner'
-  const SHARE_BUBBLE_CONTENT_SELECTOR = '.share-bubble__content'
+const OPEN_SHARE_SELECTOR = '.open-share'
+const CLOSE_SHARE_SELECTOR = '.close-share'
 
-  const AUTHOR_SUBSECTION_SELECTOR = '.author-subsection'
+const SHARE_BUBBLE_INNER_SELECTOR = '.share-bubble__inner'
+const SHARE_BUBBLE_CONTENT_SELECTOR = '.share-bubble__content'
 
-  const ANIMATION_DURATION = .2
+const AUTHOR_SUBSECTION_SELECTOR = '.author-subsection'
 
-  const BORDER_RADIUS = '50px'
+const ANIMATION_DURATION = .2
+
+const BORDER_RADIUS = '50px'
+
+const SHARE_BUBBLE_OPENED = true
+const SHARE_BUBBLE_CLOSED = false
 
 
 
-  function get_content_width (element) {
-    const styles = getComputedStyle(element)
+function get_content_width (element) {
+  const styles = getComputedStyle(element)
 
-    return ( element.clientWidth
-           - parseFloat(styles.paddingLeft)
-           - parseFloat(styles.paddingRight)
+  return ( element.clientWidth
+         - parseFloat(styles.paddingLeft)
+         - parseFloat(styles.paddingRight)
+         )
+}
+
+
+
+function get_content_height (element) {
+  const styles = getComputedStyle(element)
+
+  return ( element.clientHeight
+         - parseFloat(styles.paddingTop)
+         - parseFloat(styles.paddingBottom)
+         )
+}
+
+
+
+/*
+ * Assumptions:
+ *   we assume that the ".share-bubble__inner" height and width are
+ *   both set to zero.
+ */
+function open_share_bubble (articleComponent) {
+  if (gsap === "undefined") {
+    alert('I need gsap')
+    return SHARE_BUBBLE_CLOSED
+  }
+
+  const shareBubble =
+    articleComponent.querySelector(SHARE_BUBBLE_SELECTOR)
+  const shareBubbleContent =
+    articleComponent.querySelector(SHARE_BUBBLE_CONTENT_SELECTOR)
+  const shareBubbleInner =
+    articleComponent.querySelector(SHARE_BUBBLE_INNER_SELECTOR)
+  const authorSubsection =
+    articleComponent.querySelector(AUTHOR_SUBSECTION_SELECTOR)
+
+  const timeline = gsap.timeline()
+  timeline
+    .set( shareBubble
+        , { position: 'relative'
+          }
+        )
+    .set( shareBubbleContent
+        , { width:      authorSubsection.clientWidth
+          , height:     authorSubsection.clientHeight
+          , boxSizing: 'border-box'
+          }
+        )
+    .set( authorSubsection
+        , { position: 'absolute'
+          }
+        )
+    .set( shareBubbleInner
+        , { borderBottomRightRadius: BORDER_RADIUS }
+        )
+    .to( shareBubbleInner
+       , { duration: ANIMATION_DURATION
+         , ease:     'none'
+         , width:    '100%'
+         , height:   '100%'
+         }
+       )
+    .to( shareBubbleInner
+       , { duration:                ANIMATION_DURATION
+         , borderBottomRightRadius: '0px'
+         }
+       )
+
+  return SHARE_BUBBLE_OPENED
+}
+
+
+
+function close_share_bubble (articleComponent) {
+  if (gsap === "undefined") {
+    alert('I need gsap')
+    return SHARE_BUBBLE_CLOSED
+  }
+
+  const shareBubble =
+    articleComponent.querySelector(SHARE_BUBBLE_SELECTOR)
+  const shareBubbleInner =
+    articleComponent.querySelector(SHARE_BUBBLE_INNER_SELECTOR)
+  const authorSubsection =
+    articleComponent.querySelector(AUTHOR_SUBSECTION_SELECTOR)
+
+  const timeline = gsap.timeline()
+  timeline
+    .to( shareBubbleInner
+       , { duration:                ANIMATION_DURATION
+         , borderBottomRightRadius: BORDER_RADIUS
+         }
+       )
+    .to( shareBubbleInner
+       , { duration: ANIMATION_DURATION
+         , ease:     'none'
+         , width:    '0%'
+         , height:   '0%'
+         }
+       )
+    .set( authorSubsection
+        , { position: 'relative'
+          }
+        )
+    .set( shareBubble
+        , { position: 'absolute'
+          }
+        )
+
+  return SHARE_BUBBLE_CLOSED
+}
+
+
+
+function open_share_bubble_popover
+( articleComponent 
+, set_popper_instance
+) {
+  if (Popper === "undefined") {
+    console.log("I need Popper")
+    return SHARE_BUBBLE_CLOSED
+  }
+
+  const shareBubble =
+    articleComponent.querySelector(SHARE_BUBBLE_SELECTOR)
+  const shareBubbleContent =
+    articleComponent.querySelector(SHARE_BUBBLE_CONTENT_SELECTOR)
+  const openShare =
+    articleComponent.querySelector(OPEN_SHARE_SELECTOR)
+
+  const modifiers =
+    [ { name: 'offset'
+      , options: { offset: [0, 10] }
+      }
+    ]
+
+  const animate = () => {
+    const timeline = gsap.timeline()
+    timeline
+      .set( shareBubble , { zIndex: 2 } )
+      .from( shareBubble
+           , { duration: ANIMATION_DURATION
+             , scale: .1
+             }
            )
   }
 
+  set_popper_instance(
+    Popper.createPopper
+      ( openShare
+      , shareBubble
+      , { modifiers: modifiers
+        , onFirstUpdate: animate
+        }
+      )
+  )
+
+  return SHARE_BUBBLE_OPENED
+}
 
 
-  function get_content_height (element) {
-    const styles = getComputedStyle(element)
 
-    return ( element.clientHeight
-           - parseFloat(styles.paddingTop)
-           - parseFloat(styles.paddingBottom)
-           )
+function close_share_bubble_popover 
+(
+  articleComponent
+, popperInstance
+, set_popper_instance
+) {
+  if (Popper === "undefined") {
+    console.log("I need Popper")
+    return SHARE_BUBBLE_OPENED
   }
-  
 
-
-  /*
-   * Assumptions:
-   *   we assume that the ".share-bubble__inner" height and width are
-   *   both set to zero.
-   */
-  function open_share_bubble (articleComponent) {
-    if (!gsap) {
-      alert('I need gsap')
-      return null
-    }
-
+  if (popperInstance) {
     const shareBubble =
       articleComponent.querySelector(SHARE_BUBBLE_SELECTOR)
-    const shareBubbleContent =
-      articleComponent.querySelector(SHARE_BUBBLE_CONTENT_SELECTOR)
-    const shareBubbleInner =
-      articleComponent.querySelector(SHARE_BUBBLE_INNER_SELECTOR)
-
     const timeline = gsap.timeline()
-    timeline.set( shareBubble
-                , { zIndex: 2
-                  }
-                )
-            .set( shareBubbleContent
-                , { width:      get_content_width(shareBubble)
-                  , height:     get_content_height(shareBubble)
-                  , boxSizing: 'border-box'
-                  }
-                )
-            .set( shareBubbleInner
-                , { borderBottomRightRadius: BORDER_RADIUS }
-                )
-            .to( shareBubbleInner
-               , { duration: ANIMATION_DURATION
-                 , ease:     'none'
-                 , width:    '100%'
-                 , height:   '100%'
-                 }
-               )
-            .to( shareBubbleInner
-               , { duration:                ANIMATION_DURATION
-                 , borderBottomRightRadius: '0px'
-                 }
-               )
+    timeline
+      .to( shareBubble
+         , { duration: ANIMATION_DURATION
+           , scale: .1
+           , onComplete: () => popperInstance.destroy()
+           }
+         )
+      .set( shareBubble
+          , { zIndex: 0 
+            , clearProps: 'transform'
+            }
+          )
   }
 
 
+  set_popper_instance(null)
 
-  function close_share_bubble (articleComponent) {
-    if (!gsap) {
-      alert('I need gsap')
-      return null
+  return SHARE_BUBBLE_CLOSED
+}
+
+
+
+function setupHandlers() {
+  const articles = document.querySelectorAll(ARTICLE_SELECTOR)
+
+  Array.prototype.forEach.call(articles, (article) => {
+    const openShare = article.querySelector(OPEN_SHARE_SELECTOR)
+    const closeShare = article.querySelector(CLOSE_SHARE_SELECTOR)
+
+    let popperInstance = null
+    let shareBubbleToggled = SHARE_BUBBLE_CLOSED
+
+    const set_popper_instance = (instance) => popperInstance = instance
+
+    const openShareBubble = 
+      window.matchMedia('(min-width: 768px)').matches
+        ? () => open_share_bubble_popover(article, set_popper_instance )
+        : () => open_share_bubble(article)
+
+    const closeShareBubble = 
+      window.matchMedia('(min-width: 768px)').matches
+        ? () => close_share_bubble_popover( article
+                                          , popperInstance
+                                          , set_popper_instance
+                                          )
+        : () => close_share_bubble(article)
+
+    const toggleShareBubble = () => {
+      if (shareBubbleToggled) {
+        shareBubbleToggled = 
+          window.matchMedia('(min-width: 768px)').matches
+            ? close_share_bubble_popover
+                ( article
+                , popperInstance
+                , set_popper_instance
+                )
+            : close_share_bubble(article)
+      } else {
+        shareBubbleToggled =
+          window.matchMedia('(min-width: 768px)').matches
+            ? open_share_bubble_popover(article, set_popper_instance )
+            : open_share_bubble(article)
+      }
     }
 
-    const shareBubble =
-      articleComponent.querySelector(SHARE_BUBBLE_SELECTOR)
-    const shareBubbleInner =
-      articleComponent.querySelector(SHARE_BUBBLE_INNER_SELECTOR)
-
-    const timeline = gsap.timeline()
-    timeline.to( shareBubbleInner
-               , { duration:                ANIMATION_DURATION
-                 , borderBottomRightRadius: BORDER_RADIUS
-                 }
-               )
-            .to( shareBubbleInner
-               , { duration: ANIMATION_DURATION
-                 , ease:     'none'
-                 , width:    '0%'
-                 , height:   '0%'
-                 }
-               )
-            .set( shareBubble
-                , { zIndex: 0 }
-                )
-  }
-
-
-
-  function setupHandlers() {
-    const articles = document.querySelectorAll(ARTICLE_SELECTOR)
-
-    Array.prototype.forEach.call(articles, (article) => {
-      const openShare = article.querySelector(OPEN_SHARE_SELECTOR)
-      const closeShare = article.querySelector(CLOSE_SHARE_SELECTOR)
-
-      const handleOpen = ()=>open_share_bubble(article)
-      const handleClose = ()=>close_share_bubble(article)
-
-      document.addEventListener('DOMContentLoaded', () => {
-        openShare.addEventListener('click', handleOpen)
-        closeShare.addEventListener('click', handleClose)
-      })
+    document.addEventListener('DOMContentLoaded', () => {
+      openShare.addEventListener('click', toggleShareBubble)
+      closeShare.addEventListener('click', toggleShareBubble)
     })
-  }
+  })
+}
 
 
-  setupHandlers()
-})( gsap, document )
+setupHandlers()
+})( gsap, Popper, window, document )
