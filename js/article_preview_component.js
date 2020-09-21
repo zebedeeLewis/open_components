@@ -7,7 +7,8 @@ const CLOSE_SHARE_SELECTOR = '.close-share'
 const SHARE_BUBBLE_INNER_SELECTOR = '.share-bubble__inner'
 const SHARE_BUBBLE_CONTENT_SELECTOR = '.share-bubble__content'
 const AUTHOR_SUBSECTION_SELECTOR = '.author-subsection'
-const ANIMATION_DURATION = .2
+const ACTIVE_ANIMATION_DURATION = .2
+const STARTUP_ANIMATION_DURATION = 2
 const BORDER_RADIUS = '50px'
 const SHARE_BUBBLE_OPENED = true
 const SHARE_BUBBLE_CLOSED = false
@@ -199,7 +200,7 @@ const open_desktop_view =
       gsapTimeline
         .set( shareBubble , { zIndex: 2 } )
         .from( shareBubble
-             , { duration: ANIMATION_DURATION
+             , { duration: ACTIVE_ANIMATION_DURATION
                , scale: .1
                }
              )
@@ -237,12 +238,12 @@ const close_mobile_view =
   , viewObject:
       gsapTimeline
         .to( shareBubbleInner
-           , { duration:                ANIMATION_DURATION
+           , { duration:                ACTIVE_ANIMATION_DURATION
              , borderBottomRightRadius: BORDER_RADIUS
              }
            )
         .to( shareBubbleInner
-           , { duration: ANIMATION_DURATION
+           , { duration: ACTIVE_ANIMATION_DURATION
              , ease:     'none'
              , width:    '0%'
              , height:   '0%'
@@ -276,7 +277,7 @@ const open_mobile_view =
             )
         .set(authorSubsection, { position: 'absolute' })
         .to( shareBubbleInner
-           , { duration: ANIMATION_DURATION
+           , { duration: ACTIVE_ANIMATION_DURATION
              , ease:     'none'
              , width:    '100%'
              , height:   '100%'
@@ -302,7 +303,7 @@ const close_desktop_view =
   const viewObject =
     gsapTimeline
       .to( shareBubble
-         , { duration: ANIMATION_DURATION
+         , { duration: ACTIVE_ANIMATION_DURATION
            , scale: .1
            , onComplete: () => popperInstance.destroy()
            }
@@ -349,10 +350,24 @@ const mains = () => {
         )
     )
 
+
     document.addEventListener('DOMContentLoaded', () => {
       openShare.addEventListener('click', toggleShareBubble)
       closeShare.addEventListener('click', toggleShareBubble)
-    })
+
+      gsap
+        .timeline()
+        .set( article
+            , { y: 80 }
+            )
+        .to( article
+           , { duration: STARTUP_ANIMATION_DURATION
+             , opacity: 1
+             , ease: 'power3'
+             , y: 0
+             }
+           )
+      })
   })
 }
 
